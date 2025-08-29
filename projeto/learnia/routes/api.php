@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // })->middleware('auth:sanctum');
 
-Route::prefix('v1')->group(function () {
+Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
     Route::prefix('user')->group(function () {
         Route::get('/', [UserController::class, 'getAll'])->name('user.get.all');
         Route::get('/{id}', [UserController::class, 'getById'])->name('user.get');
@@ -20,6 +20,6 @@ Route::prefix('v1')->group(function () {
 
     Route::prefix('auth')->group(function () {
         Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
-        Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
+        Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout')->middleware('auth:sanctum');//Em construção
     });
 });

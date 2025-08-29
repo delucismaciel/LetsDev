@@ -75,18 +75,17 @@ class UserController extends Controller
         ]);
     }
 
-    public function update(Request $request, $id){
+    public function update($id, Request $request){
         $user = User::findOrFail($id);
 
         //Validação de dados
         $request->validate([
-            'id' => 'required|exists:users,id',
-            'name' => 'required|max:255',
-            'email' => 'required|email|unique:users,email,' . $id,
+            'name' => 'nullable|max:255',
+            'email' => 'nullable|email|unique:users,email,' . $id,
             'profile_picture_url' => 'nullable|url'
         ]);
 
-        $user->update($request->all());
+        $user->update($request->except('email'));
 
         return response()->json([
             'success' => true,
