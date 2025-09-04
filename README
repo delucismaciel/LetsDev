@@ -1,0 +1,151 @@
+# 🚀 Workshop LetsDev #1: Integrando Laravel 12 + N8N (Projeto Fixi)
+
+Bem-vindo ao repositório oficial do primeiro workshop LetsDev! Este projeto foi desenhado para demonstrar, de forma prática, como integrar uma aplicação robusta (API Laravel 12) com a poderosa plataforma de automação de workflows, o N8N.
+
+O projeto "Fixi" simula o backend de uma startup estilo "Uber de Serviços", conectando clientes a prestadores de serviços. Usaremos o N8N para automatizar processos que seriam disparados pela nossa API (como notificar prestadores quando um novo serviço é solicitado).
+
+[![Laravel 12](https://img.shields.io/badge/Laravel-12.x-FF2D20?style=for-the-badge&logo=laravel)](https://laravel.com)
+[![N8N](https://img.shields.io/badge/N8N-Workflow-8246E6?style=for-the-badge&logo=n8n)](https://n8n.io/)
+[![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?style=for-the-badge&logo=docker)](https://www.docker.com/)
+
+---
+
+## 📚 Tabela de Conteúdos
+
+* [Sobre o Projeto](#-sobre-o-projeto)
+* [Tecnologias Utilizadas](#-tecnologias-utilizadas)
+* [Estrutura de Pastas](#-estrutura-de-pastas)
+* [Pré-requisitos](#-pré-requisitos)
+* [Guia de Instalação (Setup)](#-guia-de-instalação-setup)
+    * [Passo 1: Configurando o N8N](#passo-1-configurando-o-n8n)
+    * [Passo 2: Configurando o Fixi (Laravel)](#passo-2-configurando-o-fixi-laravel)
+    * [Passo 3: Configurando o Postman](#passo-3-configurando-o-postman)
+* [Testando a Integração](#-testando-a-integração)
+
+---
+
+## 🎯 Sobre o Projeto
+
+O objetivo principal deste repositório é fornecer todo o ambiente necessário para o workshop. Vamos focar em:
+
+1.  **API (Fixi):** Ter um backend funcional que gerencia clientes, prestadores e solicitações de serviço.
+2.  **Automação (N8N):** Configurar um workflow no N8N que "escuta" eventos da nossa API (via webhooks).
+3.  **Integração:** Fazer o Laravel disparar o webhook do N8N quando uma ação específica ocorrer (ex: um novo pedido de serviço for criado).
+
+## 🛠️ Tecnologias Utilizadas
+
+* **Backend:** Laravel 12
+* **Automação:** N8N
+* **Ambiente:** Docker & Docker Compose
+* **Testes de API:** Postman
+
+## 📁 Estrutura de Pastas
+
+Este repositório está dividido em três componentes principais:
+
+.
+├── 🚀 Fixi/
+│   └── (Projeto completo Laravel 12 - A nossa API)
+│
+├── 🤖 n8n/
+│   ├── docker-compose.yml  (Arquivo de setup do Docker para o N8N)
+│   └── .env                (Variáveis de ambiente para o N8N)
+│
+└── 🧪 Postman/
+└── (Coleções e Environments do Postman para testar as rotas)
+
+
+## ✅ Pré-requisitos
+
+Antes de começar, garanta que você tenha as seguintes ferramentas instaladas em sua máquina:
+
+* [PHP](https://www.php.net/downloads.php) (para o ambiente de desenvolvimento Laravel)
+* [Composer](https://getcomposer.org/)
+* [Docker](https://www.docker.com/products/docker-desktop/)
+* [Docker Compose](https://docs.docker.com/compose/install/)
+* [Postman](https://www.postman.com/downloads/) (ou qualquer cliente API de sua preferência)
+
+---
+
+## ⚙️ Guia de Instalação (Setup)
+
+Para rodar o projeto completo, você precisa configurar os dois serviços (N8N e Fixi) separadamente.
+
+### Passo 1: Configurando o N8N
+
+O N8N rodará dentro de um container Docker, facilitando a instalação.
+
+1.  Abra um terminal e navegue até a pasta `n8n/`:
+    ```bash
+    cd n8n
+    ```
+
+2.  (Opcional) Verifique o arquivo `.env` para ver as configurações de porta (por padrão, o N8N rodará na porta `5678`).
+
+3.  Inicie os containers do Docker:
+    ```bash
+    docker-compose up -d
+    ```
+
+4.  Aguarde alguns instantes. Após a inicialização, você poderá acessar o N8N no seu navegador:
+    **URL:** `http://localhost:5678`
+
+5.  Ao acessar pela primeira vez, o N8N pedirá para você configurar uma conta de administrador (owner). Crie seu usuário e senha.
+
+### Passo 2: Configurando o Fixi (Laravel)
+
+Em um terminal **separado**, vamos configurar a API Laravel.
+
+1.  Navegue até a pasta `Fixi/`:
+    ```bash
+    cd Fixi
+    ```
+
+2.  Copie o arquivo de ambiente de exemplo:
+    ```bash
+    cp .env.example .env
+    ```
+
+3.  Instale as dependências do PHP via Composer:
+    ```bash
+    composer install
+    ```
+
+4.  Gere a chave de aplicação do Laravel:
+    ```bash
+    php artisan key:generate
+    php artisan optimize
+    ```
+
+5.  **Configure seu Banco de Dados:**
+    Abra o arquivo `.env` e configure suas credenciais de banco de dados 
+
+6.  Execute as migrações (e seeders, se houver) para criar as tabelas:
+    ```bash
+    php artisan migrate --seed
+    ```
+
+7.  Inicie o servidor de desenvolvimento do Laravel:
+    ```bash
+    php artisan serve
+    ```
+
+8.  Seu backend Laravel agora está rodando, geralmente em: `http://127.0.0.1:8000`.
+
+### Passo 3: Configurando o Postman
+
+1.  Abra o aplicativo Postman.
+2.  Vá em `Import` (Importar).
+3.  Arraste ou selecione os arquivos localizados dentro da pasta `/Postman` deste projeto para importar a coleção de rotas e as variáveis de ambiente.
+
+---
+
+## ⚡ Testando a Integração
+
+Agora que ambos os sistemas estão no ar (N8N em `localhost:5678` e Laravel em `localhost:8000`), siga os passos do workshop para:
+
+1.  **No N8N:** Criar um novo Workflow utilizando um nó "Webhook".
+2.  Copiar a URL de "Test" do Webhook gerada pelo N8N.
+3.  **No Laravel:** Configurar o serviço ou evento que fará a chamada HTTP (via Guzzle ou `Http::`) para a URL do webhook do N8N.
+4.  **No Postman:** Executar a rota da API Fixi (ex: "Criar Pedido de Serviço").
+5.  **Verificar o N8N:** Observar os dados chegando no seu workflow para que a automação seja executada!
