@@ -1,4 +1,4 @@
-# ProntoPro - Plataforma Marketplace de Serviços
+# FIXI - Plataforma Marketplace de Serviços
 
 ![Status do Projeto: Em Desenvolvimento](https://img.shields.io/badge/status-em_desenvolvimento-yellowgreen.svg)
 ![PHP](https://img.shields.io/badge/PHP-8.2%2B-blue.svg)
@@ -9,7 +9,7 @@ Uma plataforma robusta construída em Laravel para conectar clientes (Pessoa Fí
 
 ## 🚀 Sobre o Projeto
 
-O ProntoPro nasceu para solucionar um problema central do mercado brasileiro: a dificuldade em encontrar e contratar profissionais qualificados de forma segura e eficiente. A nossa missão é ser a ponte de confiança entre quem precisa de um serviço e quem sabe executá-lo com maestria.
+O FIXI nasceu para solucionar um problema central do mercado brasileiro: a dificuldade em encontrar e contratar profissionais qualificados de forma segura e eficiente. A nossa missão é ser a ponte de confiança entre quem precisa de um serviço e quem sabe executá-lo com maestria.
 
 Este projeto é um marketplace *multi-tenant* (ou multi-provedor) que visa centralizar a demanda e a oferta de serviços, gerenciando desde a busca e agendamento até o pagamento seguro (com *escrow*), garantindo a satisfação de ambas as partes.
 
@@ -98,28 +98,7 @@ Siga os passos abaixo para configurar o ambiente de desenvolvimento localmente.
         composer install --ignore-platform-reqs
     ```
 
-4.  **Suba os containers do Sail:**
-    ```bash
-    ./vendor/bin/sail up -d
-    ```
-
-5.  **Gere a chave da aplicação:**
-    ```bash
-    ./vendor/bin/sail artisan key:generate
-    ```
-
-6.  **Execute as Migrations e Seeders:**
-    ```bash
-    ./vendor/bin/sail artisan migrate --seed
-    ```
-
-7.  **Instale as dependências NPM e compile os assets:**
-    ```bash
-    ./vendor/bin/sail npm install
-    ./vendor/bin/sail npm run dev
-    ```
-
-8.  **Pronto!** A aplicação estará disponível em `http://localhost`.
+4.  **Pronto!** A aplicação estará disponível em `http://localhost`.
 
 ## 🤝 Como Contribuir
 
@@ -137,4 +116,4 @@ Este projeto está licenciado sob a Licença MIT. Veja o arquivo [LICENSE](LICEN
 
 ---
 
-**[Nome da sua Startup]** - Conectando quem precisa com quem sabe fazer.
+**Fixi - Plataforma Marketplace de Serviços** - Conectando quem precisa com quem sabe fazer.
