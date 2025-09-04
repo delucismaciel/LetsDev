@@ -54,13 +54,12 @@ O sistema é dividido em três grandes pilares:
 
 Este projeto está sendo construído com o ecossistema TALL + Laravel, focado em alta produtividade e performance.
 
-* **Backend:** Laravel 11 (PHP 8.2+)
-* **Frontend:** Blade + Livewire 3 (ou Inertia.js + Vue/React)
+* **Backend:** Laravel 12 (PHP 8.2+)
+* **Frontend:** Blade
 * **Banco de Dados:** MySQL (ou PostgreSQL)
 * **Filas e Cache:** Redis
-* **Servidores:** Nginx
-* **Containerização:** Docker (via Laravel Sail)
-* **Testes:** PHPUnit / Pest
+* **Containerização:** Docker
+* **Testes de API:** Postman
 
 ## 🚀 Como Começar (Ambiente de Desenvolvimento)
 
@@ -70,15 +69,13 @@ Siga os passos abaixo para configurar o ambiente de desenvolvimento localmente.
 
 * PHP 8.2+
 * Composer
-* Node.js (NPM ou Yarn)
-* Um servidor de banco de dados (MySQL/PostgreSQL)
-* (Recomendado) Docker Desktop
+* Um servidor de banco de dados (MySQL)
 
-### Instalação (Usando Laravel Sail - Docker)
+### Instalação 
 
 1.  **Clone o repositório:**
     ```bash
-    git clone [https://github.com/seu-usuario/seu-repositorio.git](https://github.com/seu-usuario/seu-repositorio.git)
+    git clone [https://github.com/delucismaciel/LetsDev.git](https://github.com/delucismaciel/LetsDev.git)
     cd seu-repositorio
     ```
 
@@ -88,21 +85,18 @@ Siga os passos abaixo para configurar o ambiente de desenvolvimento localmente.
     ```
     *(Não se esqueça de configurar suas variáveis de ambiente no arquivo `.env`, especialmente `DB_HOST`, `DB_DATABASE`, etc.)*
 
-3.  **Instale as dependências do Composer via Sail:**
+3.  **Instale as dependências:**
     ```bash
-    docker run --rm \
-        -u "$(id -u):$(id -g)" \
-        -v "$(pwd)":/var/www/html \
-        -w /var/www/html \
-        laravelsail/php82-composer:latest \
-        composer install --ignore-platform-reqs
+    composer install
+    php artisan key:generate
+    php artisan optimize
+    php artisan migrate --seed
     ```
-
-4.  **Pronto!** A aplicação estará disponível em `http://localhost`.
+4.  **Pronto!** A aplicação estará disponível em `http://localhost:8000`.
 
 ## 🤝 Como Contribuir
 
-Este projeto é [insira o status: privado, aberto a contribuições, etc.]. Se você deseja contribuir:
+Este projeto é aberto para contribuições. Se você deseja contribuir:
 
 1.  Faça um **Fork** deste repositório.
 2.  Crie uma nova **Branch**: `git checkout -b feature/sua-feature-incrivel`
