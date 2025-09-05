@@ -13,6 +13,31 @@ O FIXI nasceu para solucionar um problema central do mercado brasileiro: a dific
 
 Este projeto é um marketplace *multi-tenant* (ou multi-provedor) que visa centralizar a demanda e a oferta de serviços, gerenciando desde a busca e agendamento até o pagamento seguro (com *escrow*), garantindo a satisfação de ambas as partes.
 
+
+## To do List:
+
+### MVP
+
+* [ ] Implementar a busca inteligente de profissionais por categoria e localização (Direto na model).
+* [ ] Implementar o sistema de solicitação de orçamento.
+* [ ] Implementar o pagamento seguro integrado asaas.
+* [ ] Implementar o sistema de avaliação e ranqueamento de profissionais.
+* [ ] Implementar a interface de cadastro de profissionais e clientes.
+* [ ] Implementar a interface de administração de profissionais e clientes.
+* [ ] Implementar a interface de administração de categorias e subcategorias de serviços.
+* [ ] Implementar a interface de visualização de pagamentos.
+* [ ] Implementar a API para os profissionais e clientes.
+
+### N8N
+
+* [ ] Implementar o agendamento direto no google agenda do profissional e do cliente, através do pedido da plataforma.
+* [ ] Implementar o sistema de solicitação de orcamento.
+* [ ] Implementar o sistema de avaliação e ranqueamento de profissionais.
+* [ ] Implementar o sistema de busca de profissionais por categoria e localização.
+* [ ] Implementar o sistema de avisos e notificações.
+* [ ] Implementar chat interno no site.
+
+
 ### Categorias de Serviço Planejadas
 
 * **Construção e Reforma:** Pedreiros, pintores, eletricistas, arquitetos, encanadores.
