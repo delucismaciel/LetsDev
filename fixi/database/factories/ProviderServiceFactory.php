@@ -19,8 +19,8 @@ class ProviderServiceFactory extends Factory
     public function definition(): array
     {
         return [
-            'service_id' => Service::factory(),
-            'provider_id' => User::factory()->asProvider(),
+            'service_id' => Service::inRandomOrder()->first()->id,
+            'provider_id' => User::where('role', 'provider')->inRandomOrder()->first()->id,
             'base_price' => fake()->randomFloat(2, 50, 500),
             'description' => fake()->sentence(),
         ];

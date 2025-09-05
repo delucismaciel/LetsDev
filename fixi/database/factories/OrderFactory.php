@@ -23,12 +23,13 @@ class OrderFactory extends Factory
         $providerFee = fake()->randomFloat(2, 100, 1000);
         $platformFee = $providerFee * 0.15;
         $finalPrice = $providerFee + $platformFee;
+        $user = User::where('role', 'client')->inRandomOrder()->first();
 
         return [
-            'user_id' => User::factory()->asClient(),
-            'service_id' => Service::factory(),
-            'provider_id' => User::factory()->asProvider(),
-            'address_id' => Address::factory(),
+            'user_id' => $user->id,
+            'service_id' => Service::inRandomOrder()->first()->id,
+            'provider_id' => User::where('role', 'provider')->inRandomOrder()->first()->id,
+            'address_id' => $user->addresses()->inRandomOrder()->first()->id,
             'title' => 'Serviço de ' . fake()->word(),
             'description' => fake()->paragraph(),
             //Algum status aleatório da enum OrderStatus

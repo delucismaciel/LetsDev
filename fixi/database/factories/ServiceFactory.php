@@ -20,7 +20,7 @@ class ServiceFactory extends Factory
     {
         $name = fake()->unique()->words(2, true);
         return [
-            'category_id' => ServiceCategory::factory(),
+            'category_id' => ServiceCategory::inRandomOrder()->first()->id,
             'name' => $name,
             'slug' => Str::slug($name),
             'description' => fake()->paragraph(),

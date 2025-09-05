@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\OrderQuotes>
  */
-class OrderQuotesFactory extends Factory
+class OrderQuoteFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -20,8 +20,8 @@ class OrderQuotesFactory extends Factory
     public function definition(): array
     {
         return [
-            'order_id' => Order::factory(),
-            'provider_id' => User::factory()->asProvider(),
+            'order_id' => Order::inRandomOrder()->first()->id,
+            'provider_id' => User::inRandomOrder()->first()->id,
             'price' => fake()->randomFloat(2, 100, 1000),
             'description' => fake()->sentence(),
             'accepted' => false,

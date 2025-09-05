@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class ProviderService extends Pivot
@@ -29,4 +30,14 @@ class ProviderService extends Pivot
     protected $casts = [
         'base_price' => 'decimal:2',
     ];
+
+    public function provider():BelongsTo
+    {
+        return $this->belongsTo(User::class, 'provider_id');
+    }
+
+    public function service():BelongsTo
+    {
+        return $this->belongsTo(Service::class);
+    }
 }

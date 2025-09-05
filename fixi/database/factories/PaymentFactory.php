@@ -27,15 +27,15 @@ class PaymentFactory extends Factory
             'client_id' => $order->user_id, // O cliente vem do pedido
             'provider_id' => $order->provider_id, // O prestador vem do pedido
             'amount' => $order->final_price, // O valor do pagamento é o preço final do pedido
-            'getway' => 'stripe', // Gateway de pagamento padrão para testes
+            'getway' => 'asaas', // Gateway de pagamento padrão para testes
             'getway_transaction_id' => 'pi_' . Str::random(24), // ID de transação simulado (Payment Intent)
-            'status' => PaymentStatus::SUCCEEDED, // Status padrão de pagamento bem-sucedido
+            'status' => fake()->randomElement(PaymentStatus::cases()), // Status padrão de pagamento bem-sucedido
             'payment_method_details' => [
                 'type' => 'card',
                 'card_brand' => fake()->randomElement(['visa', 'mastercard']),
                 'last4' => fake()->numerify('####'),
             ],
-            'getway_response' => ['status' => 'succeeded', 'message' => 'Pagamento aprovado.'],
+            'getway_response' => json_encode(['status' => 'succeeded', 'message' => 'Pagamento aprovado.']),
         ];
     }
 

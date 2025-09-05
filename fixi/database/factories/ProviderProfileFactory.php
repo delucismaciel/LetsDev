@@ -19,8 +19,8 @@ class ProviderProfileFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => User::factory()->asProvider(),
-            'bio' => fake()->paragraph(3),
+            'user_id' => User::where('role', 'provider')->inRandomOrder()->first()->id,
+            'bio' => fake()->paragraph(random_int(1,4)),
             'profile_picture_url' => fake()->imageUrl(400, 400, 'business'),
             'status' => ProviderStatus::APPROVED,
             'average_rating' => fake()->randomFloat(2, 3, 5),

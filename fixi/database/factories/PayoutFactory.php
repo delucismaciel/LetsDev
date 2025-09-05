@@ -20,7 +20,7 @@ class PayoutFactory extends Factory
      public function definition(): array
     {
         return [
-            'provider_id' => User::factory()->asProvider(),
+            'provider_id' => User::where('role', 'provider')->inRandomOrder()->first()->id,
             'amount' => fake()->randomFloat(2, 150, 2500), // Valor do repasse
             'getway' => 'stripe', // Gateway de pagamento padrão
             'getway_transaction_id' => 'po_' . Str::random(24), // ID de transação de Payout simulado
