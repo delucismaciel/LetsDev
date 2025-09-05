@@ -35,3 +35,17 @@ enum QuoteStatus: string
     case REJECTED = 'rejected';
 }
 
+enum PaymentStatus: string
+{
+    case PENDING = 'pending';
+    case SUCCEEDED = 'succeeded';
+    case FAILED = 'failed';
+    case REFUNDED = 'refunded';
+}
+
+enum PayoutStatus: string
+{
+    case PENDING = 'pending';
+    case SUCCEEDED = 'succeeded';
+    case FAILED = 'failed';
+}
