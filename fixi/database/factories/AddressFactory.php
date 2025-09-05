@@ -25,8 +25,9 @@ class AddressFactory extends Factory
             'city' => $this->faker->city(),
             'state' => $this->faker->state(),
             'cep' => $this->faker->postcode(),
-            'main' => $this->faker->boolean(),
+            'is_main' => $this->faker->boolean(),
             'user_id' => User::inRandomOrder()->first()->id,
+            'label' => $this->faker->randomElement(['casa', 'trabalho', 'outro']),
         ];
     }
 }

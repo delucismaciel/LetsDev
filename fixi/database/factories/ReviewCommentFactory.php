@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Review;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,8 +18,11 @@ class ReviewCommentFactory extends Factory
      */
     public function definition(): array
     {
+        $review = Review::inRandomOrder()->first();
         return [
-            //
+            'user_id' => User::where('id', '!=', $review->client_id)->inRandomOrder()->first()->id,
+            'review_id' => $review->id,
+            'comment' => fake()->paragraph(),
         ];
     }
 }

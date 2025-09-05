@@ -2,10 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class ProviderService extends Pivot
 {
+    //Has factory
+    use HasFactory;
+
     /**
      * Indicates if the IDs are auto-incrementing.
      *

@@ -74,7 +74,7 @@ class User extends Authenticatable
 
     public function orderQuotes(): HasMany
     {
-        return $this->hasMany(OrderQuotes::class, 'provider_user_id');
+        return $this->hasMany(OrderQuote::class, 'provider_user_id');
     }
 
     public function offeredServices(): BelongsToMany
@@ -82,6 +82,12 @@ class User extends Authenticatable
         return $this->belongsToMany(Service::class, 'provider_services', 'provider_user_id', 'service_id')
             ->withPivot('base_price', 'description')
             ->withTimestamps();
+    }
+
+    //Serviços prestados
+    public function services(): HasMany
+    {
+        return $this->hasMany(Order::class, 'provider_id');
     }
 
     public function paymentsMade(): HasMany

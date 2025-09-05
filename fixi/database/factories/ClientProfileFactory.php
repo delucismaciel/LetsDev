@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,8 +17,12 @@ class ClientProfileFactory extends Factory
      */
     public function definition(): array
     {
-        return [
-            //
+         return [
+            'user_id' => User::factory(),
+            'trade_name' => fake()->company(),
+            'profile_picture_url' => fake()->imageUrl(400, 400, 'people'),
+            'document_type' => 'CPF',
+            'document' => fake('pt_BR')->cpf(false),
         ];
     }
 }

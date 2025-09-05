@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Service;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +19,10 @@ class ProviderServiceFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'service_id' => Service::factory(),
+            'provider_id' => User::factory()->asProvider(),
+            'base_price' => fake()->randomFloat(2, 50, 500),
+            'description' => fake()->sentence(),
         ];
     }
 }
