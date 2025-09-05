@@ -26,3 +26,12 @@ enum OrderStatus: string
     case CANCELLED = 'cancelled';
     case DISPUTED = 'disputed';
 }
+
+enum QuoteStatus: string
+{
+    case SENT = 'sent';
+    case VIEWED = 'viewed';
+    case ACCEPTED = 'accepted';
+    case REJECTED = 'rejected';
+}
+
