@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('city');
             $table->string('state');
             $table->string('cep');
-            $table->boolean('main')->default(false);
+            $table->boolean('is_main')->default(false);
             $table->string('label')->nullable();
             $table->foreignId('user_id')->constrained();
             $table->timestamps();
