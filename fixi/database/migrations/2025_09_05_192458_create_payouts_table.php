@@ -11,17 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('payments', function (Blueprint $table) {
+        Schema::create('payouts', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('order_id')->constrained('orders');
-            $table->foreignId('client_id')->constrained('users');
             $table->foreignId('provider_id')->constrained('users');
             $table->decimal('amount', 10, 2);
             $table->string('getway')->nullable();
             $table->string('getway_transaction_id')->nullable();
-            $table->string('status')->default('pending');//pending, succeeded, failed, refunded
-            $table->json('payment_method_details')->nullable();
-            $table->text('getway_response')->nullable();
+            $table->string('status')->default('pending'); //pending, succeeded, failed
+            $table->dateTime('requested_at')->nullable();
+            $table->dateTime('completed_at')->nullable();
+            $table->string('getway_transfer_id')->nullable();
 
             $table->timestamps();
         });
@@ -32,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('payments');
+        Schema::dropIfExists('payouts');
     }
 };

@@ -11,13 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('provider_services', function (Blueprint $table) {
+        Schema::create('service_categories', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('service_id')->constrained('services');
-            $table->foreignId('provider_id')->constrained('users');
-            $table->decimal('base_price', 10, 2);
+            $table->string('name');
+            $table->string('slug')->unique();
             $table->text('description')->nullable();
-            $table->unique(['service_id', 'provider_id']);
+            $table->string('view')->nullable();
+            $table->text('icon')->nullable();
+            $table->foreignId('parent_id')->nullable()->constrained('service_categories');
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }
@@ -27,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('provider_services');
+        Schema::dropIfExists('service_categories');
     }
 };

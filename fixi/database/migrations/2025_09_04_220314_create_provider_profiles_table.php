@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('profile_picture_url')->nullable();
             $table->string('status')->nullable(); //Pending, approved, rejected
 
-            $table->decimal('average_rating', 3, 2)->nullable();
+            $table->decimal('average_rating', 3, 2)->nullable(); //Stars
             $table->integer('total_reviews')->default(0);
             $table->integer('total_orders')->default(0);
             $table->integer('total_orders_completed')->default(0);

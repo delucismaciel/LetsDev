@@ -13,6 +13,13 @@ return new class extends Migration
     {
         Schema::create('services', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('slug')->unique();
+            $table->text('description')->nullable();
+            $table->string('unity_of_measure')->nullable();
+            $table->text('icon')->nullable();
+            $table->boolean('is_active')->default(true);
+            $table->foreignId('category_id')->constrained('service_categories');
             $table->timestamps();
         });
     }

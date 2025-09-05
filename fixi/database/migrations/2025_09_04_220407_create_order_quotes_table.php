@@ -11,14 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('reviews', function (Blueprint $table) {
+        Schema::create('order_quotes', function (Blueprint $table) {
             $table->id();
             $table->foreignId('order_id')->constrained('orders');
-            $table->foreignId('client_id')->constrained('users');
             $table->foreignId('provider_id')->constrained('users');
-            $table->tinyInteger('rating')->default(1);
-            $table->text('comment')->nullable();
-            $table->boolean('is_visible')->default(true);
+            $table->decimal('price', 10, 2)->nullable();
+            $table->text('description')->nullable();
+            $table->boolean('accepted')->default(false);
+            $table->integer('estimated_time')->nullable();
+            $table->string('estimated_time_unit')->nullable();
+            $table->string('status')->default('sent'); //Sent,viewed,accepted,rejected
+            $table->datetime('expires_at')->nullable();
+
             $table->timestamps();
         });
     }
@@ -28,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('reviews');
+        Schema::dropIfExists('order_quotes');
     }
 };
