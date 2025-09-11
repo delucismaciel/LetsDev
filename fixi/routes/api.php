@@ -30,11 +30,12 @@ Route::prefix('v1')->group(function () {
         Route::put('/', [ClientProfileController::class, 'update'])->name('client.update');
         Route::delete('/', [ClientProfileController::class, 'delete'])->name('client.delete');
     });
-    Route::prefix('provider')->middleware('auth:sanctum')->group(function () {
-        Route::get('/', [ProviderProfileController::class, 'me'])->name('provider.me');
+    Route::prefix('provider')->group(function () {
+        Route::get('/', [ProviderProfileController::class, 'me'])->middleware('auth:sanctum')->name('provider.me');
+        Route::delete('/', [ProviderProfileController::class, 'delete'])->middleware('auth:sanctum')->name('provider.delete');
+        //Buscas
         Route::get('/search', [ProviderProfileController::class, 'search'])->name('provider.search');
         Route::get('/{id}', [ProviderProfileController::class, 'get'])->where('id', '[0-9]+')->name('provider.get');
-        Route::delete('/', [ProviderProfileController::class, 'delete'])->name('provider.delete');
     });
     Route::prefix('service')->middleware('auth:sanctum')->group(function () {
         Route::get('/search', [ServiceController::class, 'search'])->name('service.search');

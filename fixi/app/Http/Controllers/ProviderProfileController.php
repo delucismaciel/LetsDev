@@ -27,7 +27,7 @@ class ProviderProfileController extends Controller
      * out: provider
      */
     public function get($id){
-        $provider = User::with('provider')->findOrFail($id)->provider()->with('user')->first();
+        $provider = User::findOrFail($id)->with('provider','offeredServices','mainAddress')->first();
 
         return response()->json([
             'success' => true,
@@ -37,7 +37,7 @@ class ProviderProfileController extends Controller
 
     /**
      * Busca o provider por busca
-     * in: search, order(recent, price, rating), service, page, limit
+     * in: search, order(recent, name, rating), service, page, limit
      * out: [providers]
      */
     public function search(Request $request){
@@ -83,6 +83,8 @@ class ProviderProfileController extends Controller
                                    ->orderBy('provider_profiles.average_rating', 'desc')
                                    ->select('users.*'); // Garante que a seleção principal seja da tabela users
                     break;
+                default:
+                    $providersQuery->orderBy('created_at', 'desc');
             }
         }
 
