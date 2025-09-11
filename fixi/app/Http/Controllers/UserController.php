@@ -15,7 +15,7 @@ class UserController extends Controller
      * Out: [users]
      */
     public function getAll(Request $request){
-        $users = User::query();
+        $users = User::query()->with('client');
 
         if($request->has('filters')) {
             $filters = json_decode($request->filters);
@@ -35,7 +35,7 @@ class UserController extends Controller
 
         return response()->json([
             'success' => true,
-            'users' => $users->get(['id', 'name', 'email', 'role','profile_picture_url']),
+            'users' => $users->get(['id', 'name', 'email', 'role']),
         ]);
     }
 
@@ -45,7 +45,7 @@ class UserController extends Controller
      * out: user
      */
     public function getById($id){
-        $user = User::select(['id', 'name', 'email', 'role','profile_picture_url'])->findOrFail($id);
+        $user = User::select(['id', 'name', 'email', 'role'])->findOrFail($id);
 
         return response()->json([
             'success' => true,
@@ -59,7 +59,6 @@ class UserController extends Controller
             'name' => 'required|max:255',
             'email' => 'required|email|unique:users',
             'password' => 'required',
-            'profile_picture_url' => 'nullable|url'
         ]);
 
         $request->merge([
@@ -77,15 +76,32 @@ class UserController extends Controller
 
     public function update($id, Request $request){
         $user = User::findOrFail($id);
+        //Verifica se o Token é do usuário logado
+        if($request->user()->id != $user->id){
+            return response()->json([
+                'success' => false,
+                'message' => 'Unauthorized',
+            ]);
+        }
 
         //Validação de dados
         $request->validate([
             'name' => 'nullable|max:255',
             'email' => 'nullable|email|unique:users,email,' . $id,
-            'profile_picture_url' => 'nullable|url'
+            'password' => 'nullable',
         ]);
 
-        $user->update($request->except('email'));
+        if($request->has('name')){
+            $user->update([
+                'name' => $request->name
+            ]);
+        }
+
+        if($request->has('password')) {
+            $user->update([
+                'password' => Hash::make($request->password),
+            ]);
+        }
 
         return response()->json([
             'success' => true,
@@ -103,5 +119,35 @@ class UserController extends Controller
         ]);
     }
 
+    /**
+     * Busca de usuários
+     * In: search (name/email)
+     * Out: [users]
+     */
+    public function search(Request $request){
+        $users = User::select(['id', 'name', 'email', 'role', 'provider', 'client'])
+            ->where(function ($query) use ($request) {
+                $query->where('name', 'like', '%' . $request->search . '%')
+                    ->orWhere('email', 'like', '%' . $request->search . '%');
+            })
+            ->get();
 
+        return response()->json([
+            'success' => true,
+            'users' => $users,
+        ]);
+    }
+
+    /**
+     * Verifica se o token é valido
+     * In: token
+     * Out: user / null
+     */
+    public function me(Request $request){
+        return response()->json([
+            'success' => true,
+            'is_valid' => $request->user() ? true : false,
+            'user' => $request->user()??null,
+        ]);
+    }
 }

@@ -41,12 +41,12 @@ class User extends Authenticatable
         'role' => Role::class,
     ];
 
-    public function clientProfile(): HasOne
+    public function client(): HasOne
     {
         return $this->hasOne(ClientProfile::class);
     }
 
-    public function providerProfile(): HasOne
+    public function provider(): HasOne
     {
         return $this->hasOne(ProviderProfile::class);
     }
@@ -79,15 +79,9 @@ class User extends Authenticatable
 
     public function offeredServices(): BelongsToMany
     {
-        return $this->belongsToMany(Service::class, 'provider_services', 'provider_user_id', 'service_id')
-            ->withPivot('base_price', 'description')
-            ->withTimestamps();
-    }
-
-    //Serviços prestados
-    public function services(): HasMany
-    {
-        return $this->hasMany(Order::class, 'provider_id');
+        return $this->belongsToMany(Service::class, 'provider_services', 'provider_id', 'service_id')
+            ->using(ProviderService::class)
+            ->withPivot('base_price', 'description');
     }
 
     public function paymentsMade(): HasMany

@@ -6,6 +6,7 @@ use App\Enums\OrderStatus;
 use App\Enums\PaymentStatus;
 use App\Models\User;
 use App\Models\Address;
+use App\Models\ClientProfile;
 use App\Models\Order;
 use App\Models\OrderQuote;
 use App\Models\Payment;
@@ -26,11 +27,13 @@ class DatabaseSeeder extends Seeder
        // 1. Cria um usuário Administrador
         $this->command->info('Criando usuário Administrador...');
         User::factory()->asAdmin()->create([
-            'name' => 'Admin ProntoPro',
-            'email' => 'admin@prontopro.com',
+            'name' => 'Gabriel Maciel',
+            'email' => 'gabriel@nesos.com.br',
             'password' => Hash::make('password'),
         ]);
-
+        ClientProfile::factory()->create([
+            'user_id' => 1,
+        ]);
         // 2. Cria usuários Clientes
         $this->command->info('Criando usuários Clientes...');
         $clients = User::factory(200)->asClient()->create();
