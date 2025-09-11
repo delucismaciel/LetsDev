@@ -6,6 +6,7 @@ use App\Enums\Role;
 use App\Models\ProviderProfile;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProviderProfileController extends Controller
 {
@@ -82,6 +83,31 @@ class ProviderProfileController extends Controller
                     $providersQuery->join('provider_profiles', 'users.id', '=', 'provider_profiles.user_id')
                                    ->orderBy('provider_profiles.average_rating', 'desc')
                                    ->select('users.*'); // Garante que a seleção principal seja da tabela users
+                    break;
+                case 'price_asc':
+                case 'price_desc':
+                    $direction = ($request->order === 'price_asc') ? 'asc' : 'desc';
+                    $providersQuery
+                        // Junta a tabela pivô que contém os preços
+                        ->join('provider_services', 'users.id', '=', 'provider_services.provider_id')
+                        // Seleciona todas as colunas de 'users' e calcula o menor preço de cada um
+                        ->select('users.*', DB::raw('MIN(provider_services.base_price) as min_price'))
+                        // CORREÇÃO: Agrupa por todas as colunas de 'users' para evitar o erro ONLY_FULL_GROUP_BY
+                        ->groupBy(
+                            'users.id',
+                            'users.name',
+                            'users.email',
+                            'users.email_verified_at',
+                            'users.password',
+                            'users.role',
+                            'users.phone',
+                            'users.deleted_at',
+                            'users.remember_token',
+                            'users.created_at',
+                            'users.updated_at'
+                        )
+                        // Ordena pelo menor preço calculado
+                        ->orderBy('min_price', $direction);
                     break;
                 default:
                     $providersQuery->orderBy('created_at', 'desc');
