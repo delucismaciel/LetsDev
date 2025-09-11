@@ -2,11 +2,10 @@
 
 namespace App\Models;
 
-use App\Enums\ProviderStatus;
+use App\Enums\Role;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class ProviderProfile extends Model
 {

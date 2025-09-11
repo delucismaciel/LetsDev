@@ -119,4 +119,17 @@ class ProviderProfileController extends Controller
         ]);
     }
 
+    /**
+     * Deleta o provider
+     * in: id
+     * out: provider
+     */
+    public function delete(Request $request){
+        $provider = $request->user()->provider()->with('user')->first();
+        $provider->delete();
+        return response()->json([
+            'success' => true,
+            'message' => 'Provider deleted successfully',
+        ]);
+    }
 }

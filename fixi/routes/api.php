@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClientProfileController;
 use App\Http\Controllers\ProviderProfileController;
+use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -33,9 +34,12 @@ Route::prefix('v1')->group(function () {
         Route::get('/', [ProviderProfileController::class, 'me'])->name('provider.me');
         Route::get('/search', [ProviderProfileController::class, 'search'])->name('provider.search');
         Route::get('/{id}', [ProviderProfileController::class, 'get'])->where('id', '[0-9]+')->name('provider.get');
-        Route::post('/', [ProviderProfileController::class, 'create'])->name('provider.create');
-        Route::put('/', [ProviderProfileController::class, 'update'])->name('provider.update');
         Route::delete('/', [ProviderProfileController::class, 'delete'])->name('provider.delete');
+    });
+    Route::prefix('service')->middleware('auth:sanctum')->group(function () {
+        Route::get('/search', [ServiceController::class, 'search'])->name('service.search');
+        Route::get('/{id}', [ServiceController::class, 'get'])->where('id', '[0-9]+')->name('service.get');
+        Route::delete('/', [ServiceController::class, 'delete'])->name('service.delete');
     });
 
     Route::prefix('auth')->group(function () {
