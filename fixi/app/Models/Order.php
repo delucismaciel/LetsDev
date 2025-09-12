@@ -6,6 +6,7 @@ use App\Enums\OrderStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Order extends Model
 {
@@ -37,6 +38,17 @@ class Order extends Model
         'final_price' => 'decimal:2',
     ];
 
+    protected $appends = [
+        'payment_link',
+    ];
+
+    public function getPaymentLinkAttribute(): ?string
+    {
+        // Acessa a relação 'payment' e, se ela existir, retorna o atributo 'payment_link' do modelo Payment.
+        // A função optional() previne erros se a relação não existir (retornando null).
+        return optional($this->payment)->payment_link;
+    }
+
     public function client(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
@@ -55,5 +67,10 @@ class Order extends Model
     public function address(): BelongsTo
     {
         return $this->belongsTo(Address::class);
+    }
+
+    public function payment(): HasOne
+    {
+        return $this->hasOne(Payment::class);
     }
 }

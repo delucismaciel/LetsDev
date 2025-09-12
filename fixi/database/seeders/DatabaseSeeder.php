@@ -11,6 +11,7 @@ use App\Models\Order;
 use App\Models\OrderQuote;
 use App\Models\Payment;
 use App\Models\Payout;
+use App\Models\ProviderProfile;
 use App\Models\ProviderService;
 use App\Models\Review;
 use App\Models\ReviewComment;
@@ -19,6 +20,7 @@ use App\Models\ServiceCategory;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use NunoMaduro\Collision\Provider;
 
 class DatabaseSeeder extends Seeder
 {
@@ -31,9 +33,16 @@ class DatabaseSeeder extends Seeder
             'email' => 'gabriel@nesos.com.br',
             'password' => Hash::make('password'),
         ]);
+        Address::factory()->create([
+            'user_id' => 1,
+        ]);
         ClientProfile::factory()->create([
             'user_id' => 1,
         ]);
+        ProviderProfile::factory()->create([
+            'user_id' => 1,
+        ]);
+
         // 2. Cria usuários Clientes
         $this->command->info('Criando usuários Clientes...');
         $clients = User::factory(200)->asClient()->create();

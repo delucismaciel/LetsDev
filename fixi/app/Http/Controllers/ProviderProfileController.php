@@ -38,7 +38,7 @@ class ProviderProfileController extends Controller
 
     /**
      * Busca o provider por busca
-     * in: search, order(recent, name, rating), service, page, limit
+     * in: search, city, order(recent, name, rating), service, page, limit
      * out: [providers]
      */
     public function search(Request $request){
@@ -65,6 +65,13 @@ class ProviderProfileController extends Controller
             $serviceTerm = '%' . $request->service . '%';
             $providersQuery->whereHas('offeredServices', function ($serviceQuery) use ($serviceTerm) {
                 $serviceQuery->where('name', 'like', $serviceTerm);
+            });
+        }
+
+        if($request->filled('city')) {
+            $cityTerm = '%' . $request->city . '%';
+            $providersQuery->whereHas('mainAddress', function ($addressQuery) use ($cityTerm) {
+                $addressQuery->where('city', 'like', $cityTerm);
             });
         }
 
@@ -119,7 +126,8 @@ class ProviderProfileController extends Controller
         // O método 'through' transforma cada item da coleção paginada.
         $transformedProviders = $paginatedProviders->through(function ($provider) {
             return [
-                'id' => $provider->id,
+                'user_id' => $provider->id,
+                'provider_id' => $provider->provider->id,
                 'name' => $provider->name,
                 'phone' => $provider->phone,
                 // Formata os dados do perfil, se existir
@@ -133,6 +141,7 @@ class ProviderProfileController extends Controller
                 // Formata a lista de serviços
                 'services' => $provider->offeredServices->map(function ($service) {
                     return [
+                        'service_id' => $service->id,
                         'name' => $service->name,
                         'base_price' => (float) $service->pivot->base_price,
                         'provider_description' => $service->pivot->description,

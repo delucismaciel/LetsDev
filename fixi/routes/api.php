@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClientProfileController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProviderProfileController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\UserController;
@@ -41,6 +42,11 @@ Route::prefix('v1')->group(function () {
         Route::get('/search', [ServiceController::class, 'search'])->name('service.search');
         Route::get('/', [ServiceController::class, 'get'])->name('service.get');
         Route::delete('/', [ServiceController::class, 'delete'])->name('service.delete');
+    });
+    Route::prefix('order')->middleware('auth:sanctum')->group(function () {
+        Route::post('/', [OrderController::class, 'create'])->name('order.create');
+        Route::get('/', [OrderController::class, 'getAll'])->name('order.get.all');
+        Route::get('/{id}', [OrderController::class, 'get'])->name('order.get');
     });
 
     Route::prefix('auth')->group(function () {

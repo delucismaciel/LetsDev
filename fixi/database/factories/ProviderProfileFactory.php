@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Enums\ProviderStatus;
+use App\Models\Address;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -18,8 +19,9 @@ class ProviderProfileFactory extends Factory
      */
     public function definition(): array
     {
+        $user = User::where('role', 'provider')->orwhere('role', 'admin')->inRandomOrder()->first();
         return [
-            'user_id' => User::where('role', 'provider')->inRandomOrder()->first()->id,
+            'user_id' => $user->id,
             'bio' => fake()->paragraph(random_int(1,4)),
             'profile_picture_url' => fake()->imageUrl(400, 400, 'business'),
             'status' => ProviderStatus::APPROVED,
@@ -28,6 +30,7 @@ class ProviderProfileFactory extends Factory
             'total_orders_completed' => fake()->numberBetween(10, 200),
             'serves_pf' => true,
             'serves_pj' => fake()->boolean(),
+            'address_id' => Address::factory()->for($user)->create(['is_main' => true])->id
         ];
     }
 }

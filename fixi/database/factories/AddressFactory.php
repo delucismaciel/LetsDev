@@ -17,12 +17,13 @@ class AddressFactory extends Factory
      */
     public function definition(): array
     {
+        $cities = ['Pelotas','Pelotas','Pelotas','Pelotas','Pelotas','Pelotas','Pelotas','Rio Grande','Pelotas','Rio Grande','Pelotas','Rio Grande','Pelotas','Rio Grande','Pelotas','Rio Grande','Camaquã','Porto Alegre'];
         return [
             'street' => $this->faker->streetName(),
             'number' => $this->faker->buildingNumber(),
             'complement' => $this->faker->optional(0.2)->secondaryAddress(),
-            'neighbor' => $this->faker->city(),
-            'city' => $this->faker->city(),
+            'neighbor' => $this->faker->secondaryAddress(),
+            'city' => $this->faker->randomElement($cities),
             'state' => $this->faker->state(),
             'cep' => $this->faker->postcode(),
             'is_main' => $this->faker->boolean(),
