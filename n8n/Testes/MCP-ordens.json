@@ -1,0 +1,179 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "toolDescription": "Requisita os pedidos feitos pelo cliente, com opção de filtros. o cliente é identificado pelo token já setado.",
+        "url": "=http://host.docker.internal:8000/api/v1/order/",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "status",
+              "value": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('parameters0_Value', `Filtra por status (opcional). Status possíveis:\n'pending_quotes','pending_payment','scheduled','in_progress','completed','cancelled','disputed'`, 'string') }}"
+            },
+            {
+              "name": "limit",
+              "value": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('parameters1_Value', `número máximo de pedidos a ser retornado (default: 10)`, 'string') }}"
+            },
+            {
+              "name": "page",
+              "value": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('parameters2_Value', `número da página para o paginator`, 'string') }}"
+            },
+            {
+              "name": "order",
+              "value": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('parameters3_Value', `Ordena por: recent (mais atuais) ou value (ordenação por preço)`, 'string') }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        0,
+        192
+      ],
+      "id": "3af235c8-2c81-49dc-b4e6-b00c8270ce13",
+      "name": "Get All Orders",
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "XIwmuD1v1ahB3J6W",
+          "name": "Bearer Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "path": "order"
+      },
+      "type": "@n8n/n8n-nodes-langchain.mcpTrigger",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "f404e208-8ba5-4544-b08c-1e1357d03c44",
+      "name": "MCP Orders",
+      "webhookId": "c823a1da-d98f-4fc8-a7c1-f1d2330ce554"
+    },
+    {
+      "parameters": {
+        "toolDescription": "Retorna todos os dados de um pedido com base no id dele.  (provider, client, payment, link e etc)",
+        "url": "=http://host.docker.internal:8000/api/v1/order/{{ $fromAI('order_id',\"ID do pedido, obtido pelo Get All Orders\") }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {}
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        144,
+        192
+      ],
+      "id": "9468eb04-8903-46f5-aca8-731f4f274325",
+      "name": "Get Order",
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "XIwmuD1v1ahB3J6W",
+          "name": "Bearer Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "toolDescription": "Cria um pedido para o cliente.",
+        "method": "POST",
+        "url": "=http://host.docker.internal:8000/api/v1/order",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "service",
+              "value": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('parameters0_Value', `Nome do serviço,(string).\nServiços:\nPintor, Eletricista, Encanador, Pedreiro, Montador de Móveis, Carpinteiro, Jardineiro, Diarista, Cozinheira, Passadeira, Babá, Faz tudo, Marido de aluguel, Técnico de Informática, Conserto de Celular, Desenvolvedor Web, Suporte Remoto, Instalação de Software, Fotógrafo, DJ, Barman, Churrasqueiro, Organizador de Festas, Bartender, Local de Eventos, Som, Luz e Imagem, Cabeleireiro, Manicure e Pedicure, Maquiador, Esteticista, Personal Stylist, Barbeiro, Professor Particular, Consultor Financeiro, Coach de Carreira, Professor de Música, Professor de séries inicias, Professor de ensino médio, Professor de idiomas`, 'string') }}"
+            },
+            {
+              "name": "provider_id",
+              "value": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('parameters1_Value', `ID do prestador, obtido na busca`, 'string') }}"
+            },
+            {
+              "name": "value",
+              "value": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('parameters2_Value', `Valor calculado do serviço com base na necessidade e no preço base do serviço`, 'string') }}"
+            },
+            {
+              "name": "title",
+              "value": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('parameters3_Value', `Título de identificação do serviço`, 'string') }}"
+            },
+            {
+              "name": "description",
+              "value": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('parameters4_Value', `descrição para explicar o serviço`, 'string') }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        288,
+        192
+      ],
+      "id": "ead70fc8-5bbc-41ff-b3fb-3284be228003",
+      "name": "Create Order",
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "UcdpE6FJqbQ7qoXO",
+          "name": "Bearer Auth account 2"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Get All Orders": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Orders",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Order": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Orders",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Order": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Orders",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "instanceId": "ebff66b85327c1f94ee6cfa9e1208d675fbd9d9de904c6d4389925ee9e8922e2"
+  }
+}

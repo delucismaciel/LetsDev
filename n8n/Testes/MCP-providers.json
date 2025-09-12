@@ -1,0 +1,101 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "path": "provider"
+      },
+      "type": "@n8n/n8n-nodes-langchain.mcpTrigger",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "45c55dfe-d65d-44fe-b41f-dc336fca9ab7",
+      "name": "MCP Server Trigger",
+      "webhookId": "447130de-b41c-41cb-a87f-62e3eecfda22"
+    },
+    {
+      "parameters": {
+        "toolDescription": "Requisita os dados de um prestador de serviços a partir do ID dele.",
+        "url": "=http://host.docker.internal:8000/api/v1/provider/{{$fromAI('provider_id','ID do provider')}}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        -64,
+        208
+      ],
+      "id": "1b2bb3a6-ff73-461f-a2f2-dc3bf82e978b",
+      "name": "Find provider"
+    },
+    {
+      "parameters": {
+        "toolDescription": "Útil para buscar prestadores de serviço. A entrada para esta ferramenta deve ser um objeto JSON contendo uma ou mais das seguintes chaves opcionais:\n- \"search\": (string) um termo para buscar no nome, email ou bio do prestador.\n- \"service\": (string) o nome exato de um serviço. Valores possíveis são: Pintor, Eletricista, Encanador, Pedreiro...\n- \"order\": (string) critério de ordenação. Valores possíveis são: 'recent', 'name', 'rating', 'price_asc', 'price_desc'.",
+        "url": "=http://host.docker.internal:8000/api/v1/provider/search",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "search",
+              "value": "={{$json.search}}"
+            },
+            {
+              "name": "service",
+              "value": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('parameters1_Value', `campo que busca por serviço prestado (opcional). Serviços:\nPintor, Eletricista, Encanador, Pedreiro, Montador de Móveis, Carpinteiro, Jardineiro, Diarista, Cozinheira, Passadeira, Babá, Faz tudo, Marido de aluguel, Técnico de Informática, Conserto de Celular, Desenvolvedor Web, Suporte Remoto, Instalação de Software, Fotógrafo, DJ, Barman, Churrasqueiro, Organizador de Festas, Bartender, Local de Eventos, Som, Luz e Imagem, Cabeleireiro, Manicure e Pedicure, Maquiador, Esteticista, Personal Stylist, Barbeiro, Professor Particular, Consultor Financeiro, Coach de Carreira, Professor de Música, Professor de séries inicias, Professor de ensino médio, Professor de idiomas`, 'string') }}"
+            },
+            {
+              "name": "order",
+              "value": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('parameters2_Value', `Ordena por: \nrecent(default), name, rating, price_asc, price_desc`, 'string') }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        64,
+        208
+      ],
+      "id": "9f9ff542-f20b-4a1b-84d8-c8962f39a4ee",
+      "name": "Search providers",
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "XIwmuD1v1ahB3J6W",
+          "name": "Bearer Auth account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Find provider": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search providers": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "instanceId": "ebff66b85327c1f94ee6cfa9e1208d675fbd9d9de904c6d4389925ee9e8922e2"
+  }
+}
