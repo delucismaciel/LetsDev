@@ -39,7 +39,7 @@ Route::prefix('v1')->group(function () {
     });
     Route::prefix('service')->middleware('auth:sanctum')->group(function () {
         Route::get('/search', [ServiceController::class, 'search'])->name('service.search');
-        Route::get('/{id}', [ServiceController::class, 'get'])->where('id', '[0-9]+')->name('service.get');
+        Route::get('/', [ServiceController::class, 'get'])->name('service.get');
         Route::delete('/', [ServiceController::class, 'delete'])->name('service.delete');
     });
 
